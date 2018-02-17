@@ -15,4 +15,6 @@ Approach :
 - Added newlines to each substring 'MDL16CS'
 - Removed first line with unnecessary information
 - Removed last line with unnecessary information
-
+- Removed each subject name leaving only grade of each subject in line with roll no
+- Summed up grades and used bc for floating point division for average
+- Wrote to file in format '$roll $cgpa'
