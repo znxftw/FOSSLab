@@ -44,31 +44,45 @@ $(sed -i 's/),CS100(/ /g' S2.txt)
 $(sed -i 's/)/ /g' S2.txt)
 
 
-$(> S1CGPA.txt)
-$(> S2CGPA.txt)
+$(> S1SGPA.txt)
+$(> S2SGPA.txt)
 
 mapfile < S1.txt;
 for j in `seq 0 121`;
 do
 	ARRAY=(${MAPFILE[$j]});
 	sum=0;
+	count=0;
+	mult=0;
 	for i in "${ARRAY[@]}";
 	do
+		case $count in
+			1)let mult=4;;
+			2)let mult=4;;
+			3)let mult=3;;
+			4)let mult=3;;
+			5)let mult=3;;
+			6)let mult=3;;
+			7)let mult=1;;
+			8)let mult=1;;
+			9)let mult=1;;
+		esac
 		case $i in
-			"O")let "sum+=10";;
-			"A+")let "sum+=9";;
-			"A")let "sum+=8";;
-			"B+")let "sum+=7";;
-			"B")let "sum+=6";;
-			"C")let "sum+=5";;
-			"P")let "sum+=4";;
+			"O")let "sum+=mult*10";;
+			"A+")let "sum+=mult*9";;
+			"A")let "sum+=mult*8";;
+			"B+")let "sum+=mult*7";;
+			"B")let "sum+=mult*6";;
+			"C")let "sum+=mult*5";;
+			"P")let "sum+=mult*4";;
 			"F");;
 			"FE");;
 			*)roll=$i
 		esac
+		let count=count+1;
 	done
-	sum=$(printf "%.1f" "$(echo "$sum/9" | bc -l;)")
-	echo "$roll $sum" >> S1CGPA.txt;
+	sum=$(printf "%.1f" "$(echo "$sum/23" | bc -l;)")
+	echo "$roll $sum" >> S1SGPA.txt;
 done
 
 mapfile < S2.txt;
@@ -76,24 +90,43 @@ for j in `seq 0 121`;
 do
         ARRAY=(${MAPFILE[$j]});
         sum=0;
+	count=0;
+	mult=0;
         for i in "${ARRAY[@]}";
         do
+               case $count in
+                        1)let mult=4;;
+                        2)let mult=4;;
+                        3)let mult=4;;
+                        4)let mult=3;;
+                        5)let mult=3;;
+                        6)let mult=3;;
+                        7)let mult=1;;
+                        8)let mult=1;;
+                        9)let mult=1;;
+                esac
                 case $i in
-                        "O")let "sum+=10";;
-                        "A+")let "sum+=9";;
-                        "A")let "sum+=8";;
-                        "B+")let "sum+=7";;
-                        "B")let "sum+=6";;
-                        "C")let "sum+=5";;
-                        "P")let "sum+=4";;
+                        "O")let "sum+=mult*10";;
+                        "A+")let "sum+=mult*9";;
+                        "A")let "sum+=mult*8";;
+                        "B+")let "sum+=mult*7";;
+                        "B")let "sum+=mult*6";;
+                        "C")let "sum+=mult*5";;
+                        "P")let "sum+=mult*4";;
                         "F");;
                         "FE");;
                         *)roll=$i
                 esac
+                let count=count+1;
         done
-        sum=$(printf "%.1f" "$(echo "$sum/9" | bc -l;)")
-        echo "$roll $sum" >> S2CGPA.txt;
+        sum=$(printf "%.1f" "$(echo "$sum/24" | bc -l;)")
+        echo "$roll $sum" >> S2SGPA.txt;
 done
 
 $(rm S1.txt)
 $(rm S2.txt)
+
+
+$(> TotalCGPA.txt)
+
+paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2+$4)/2}' > TotalCGPA.txt
