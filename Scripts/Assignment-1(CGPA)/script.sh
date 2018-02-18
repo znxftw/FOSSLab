@@ -129,4 +129,4 @@ $(rm S2.txt)
 
 $(> TotalCGPA.txt)
 
-paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2+$4)/2}' > TotalCGPA.txt
+paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2*23+$4*24)/47}' > TotalCGPA.txt
