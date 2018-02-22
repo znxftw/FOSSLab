@@ -1,13 +1,16 @@
 #!/bin/bash
 
+#Download files
 $(wget -q "https://ktu.edu.in/eu/att/attachments.htm?download=file&id=hMcUg%2FGA7hU0MOUh4%2FFRxndixG2o4goWV%2B7LYFH48bc%3D" -O S1.pdf)
 $(wget -q "https://ktu.edu.in/eu/att/attachments.htm?download=file&id=B28XbixhL2qNkNOb51le3Q%2BfFwQNveszAdAr7o%2FUwqY%3D" -O S2.pdf)
 
 $(rm attach*)
 
+#Convert to PDF
 $(pdftotext -layout S1.pdf S1.txt)
 $(pdftotext -layout S2.pdf S2.txt)
 
+# Remove all spaces, newline etc.
 $(tr -d '\040\011\012\015\014'< S1.txt > S1tmp.txt)
 $(sed -i 's/MDL16CS/\nMDL16CS/g' S1tmp.txt)
 $(mv S1tmp.txt S1.txt)
@@ -28,6 +31,7 @@ $(sed -i 's/ELECTRONICSANDBIOMEDICAL/\nELECTRONICSANDBIOMEDICAL/g' S2.txt)
 $(grep -v "ELECTRONICSANDBIOMEDICALENGINEERINGCourse" S2.txt > S2tmp.txt)
 $(mv S2tmp.txt S2.txt)
 
+#Remove subjects
 $(sed -i 's/MA101(/ /g' S1.txt)
 $(sed -i 's/),PH100(/ /g' S1.txt)
 $(sed -i 's/),BE110(/ /g' S1.txt)
@@ -54,6 +58,7 @@ $(sed -i 's/)/ /g' S2.txt)
 $(> S1SGPA.txt)
 $(> S2SGPA.txt)
 
+#Calculate SGPA
 mapfile < S1.txt;
 for j in `seq 0 122`;
 do
@@ -63,7 +68,7 @@ do
 	mult=0;
 	for i in "${ARRAY[@]}";
 	do
-		case $count in
+		case $count in #Credit value
 			1)let mult=4;;
 			2)let mult=4;;
 			3)let mult=3;;
@@ -135,14 +140,13 @@ $(rm S2.txt)
 
 
 $(> TotalCGPA.txt)
-
+#Calculate SGPA
 paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2*23+$4*24)/47}' > TotalCGPA.txt
-
+#Download student list
 $(wget -q http://14.139.184.212/ask/c4b/c4b.txt -O c4b.txt)
-
+#Join all 3 files
 $(cut -f 4- c4b.txt > c4b1.txt)
-$(join <(sort TotalCGPA.txt) <(sort c4b1.txt) > tmpCGPA.txt)
-
+$(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt)
 $(mv tmpCGPA.txt TotalCGPA.txt)
 
 $(rm c4b*.txt)
