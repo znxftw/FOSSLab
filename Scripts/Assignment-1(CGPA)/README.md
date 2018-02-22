@@ -18,3 +18,6 @@ Approach :
 - Removed each subject name leaving only grade of each subject in line with roll no
 - Summed up grades and used bc for floating point division for average
 - Wrote to file in format '$roll $cgpa'
+- Downloaded C4B student list using wget from http://14.139.184.212/ask/c4b/c4b.txt
+- Filtered out only Roll and Name & MDL roll numbers
+- Joined both files to get CGPA of only C4B students

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+$(wget -q "https://ktu.edu.in/eu/att/attachments.htm?download=file&id=hMcUg%2FGA7hU0MOUh4%2FFRxndixG2o4goWV%2B7LYFH48bc%3D" -O S1.pdf)
+$(wget -q "https://ktu.edu.in/eu/att/attachments.htm?download=file&id=B28XbixhL2qNkNOb51le3Q%2BfFwQNveszAdAr7o%2FUwqY%3D" -O S2.pdf)
+
+$(rm attach*)
+
 $(pdftotext -layout S1.pdf S1.txt)
 $(pdftotext -layout S2.pdf S2.txt)
 
@@ -13,11 +18,13 @@ $(mv S2tmp.txt S2.txt)
 
 $(grep -v "APJABDULKALAMTECHNOLOGICALUNIVERSITY" S1.txt > S1tmp.txt)
 $(mv S1tmp.txt S1.txt)
+$(sed -i 's/ELECTRONICSANDBIOMEDICAL/\nELECTRONICSANDBIOMEDICAL/g' S1.txt)
 $(grep -v "ELECTRONICSANDBIOMEDICALENGINEERINGCourse" S1.txt > S1tmp.txt)
 $(mv S1tmp.txt S1.txt)
 
 $(grep -v "APJABDULKALAMTECHNOLOGICALUNIVERSITY" S2.txt > S2tmp.txt)
 $(mv S2tmp.txt S2.txt)
+$(sed -i 's/ELECTRONICSANDBIOMEDICAL/\nELECTRONICSANDBIOMEDICAL/g' S2.txt)
 $(grep -v "ELECTRONICSANDBIOMEDICALENGINEERINGCourse" S2.txt > S2tmp.txt)
 $(mv S2tmp.txt S2.txt)
 
@@ -48,7 +55,7 @@ $(> S1SGPA.txt)
 $(> S2SGPA.txt)
 
 mapfile < S1.txt;
-for j in `seq 0 121`;
+for j in `seq 0 122`;
 do
 	ARRAY=(${MAPFILE[$j]});
 	sum=0;
@@ -86,7 +93,7 @@ do
 done
 
 mapfile < S2.txt;
-for j in `seq 0 121`;
+for j in `seq 0 122`;
 do
         ARRAY=(${MAPFILE[$j]});
         sum=0;
@@ -130,3 +137,12 @@ $(rm S2.txt)
 $(> TotalCGPA.txt)
 
 paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2*23+$4*24)/47}' > TotalCGPA.txt
+
+$(wget -q http://14.139.184.212/ask/c4b/c4b.txt -O c4b.txt)
+
+$(cut -f 4- c4b.txt > c4b1.txt)
+$(join <(sort TotalCGPA.txt) <(sort c4b1.txt) > tmpCGPA.txt)
+
+$(mv tmpCGPA.txt TotalCGPA.txt)
+
+$(rm c4b*.txt)
