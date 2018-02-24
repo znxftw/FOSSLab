@@ -4,8 +4,6 @@
 $(wget -q "https://ktu.edu.in/eu/att/attachments.htm?download=file&id=hMcUg%2FGA7hU0MOUh4%2FFRxndixG2o4goWV%2B7LYFH48bc%3D" -O S1.pdf)
 $(wget -q "https://ktu.edu.in/eu/att/attachments.htm?download=file&id=B28XbixhL2qNkNOb51le3Q%2BfFwQNveszAdAr7o%2FUwqY%3D" -O S2.pdf)
 
-$(rm attach*)
-
 #Convert to PDF
 $(pdftotext -layout S1.pdf S1.txt)
 $(pdftotext -layout S2.pdf S2.txt)
@@ -109,12 +107,12 @@ do
                case $count in
                         1)let mult=4;;
                         2)let mult=4;;
-                        3)let mult=4;;
-                        4)let mult=3;;
-                        5)let mult=3;;
-                        6)let mult=3;;
-                        7)let mult=1;;
-                        8)let mult=1;;
+                        3)let mult=3;;
+                        4)let mult=1;;
+                        5)let mult=1;;
+                        6)let mult=4;;
+                        7)let mult=3;;
+                        8)let mult=3;;
                         9)let mult=1;;
                 esac
                 case $i in
@@ -146,7 +144,9 @@ paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2*23+$4*24)/47}' > 
 $(wget -q http://14.139.184.212/ask/c4b/c4b.txt -O c4b.txt)
 #Join all 3 files
 $(cut -f 4- c4b.txt > c4b1.txt)
-$(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt)
+$(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt ) 
 $(mv tmpCGPA.txt TotalCGPA.txt)
 
 $(rm c4b*.txt)
+$(rm *SGPA*)
+$(rm *.pdf)
