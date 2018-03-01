@@ -78,15 +78,16 @@ do
 			9)let mult=1;;
 		esac
 		case $i in
-			"O")let "sum+=mult*10";;
-			"A+")let "sum+=mult*9";;
-			"A")let "sum+=mult*8";;
-			"B+")let "sum+=mult*7";;
-			"B")let "sum+=mult*6";;
-			"C")let "sum+=mult*5";;
-			"P")let "sum+=mult*4";;
+			"O")sum=$(printf "%f" "$(echo "$sum + $mult * 10"| bc -l)");;
+			"A+")sum=$(printf "%f" "$(echo "$sum + $mult * 9"| bc -l)");;
+			"A")sum=$(printf "%f" "$(echo "$sum + $mult * 8.5"| bc -l)");;
+			"B+")sum=$(printf "%f" "$(echo "$sum + $mult * 8"| bc -l)");;
+			"B")sum=$(printf "%f" "$(echo "$sum + $mult * 7"| bc -l)");;
+			"C")sum=$(printf "%f" "$(echo "$sum + $mult * 6"| bc -l)");;
+			"P")sum=$(printf "%f" "$(echo "$sum + $mult * 5"| bc -l)");;
 			"F");;
 			"FE");;
+			"I");;
 			*)roll=$i
 		esac
 		let count=count+1;
@@ -116,15 +117,16 @@ do
                         9)let mult=1;;
                 esac
                 case $i in
-                        "O")let "sum+=mult*10";;
-                        "A+")let "sum+=mult*9";;
-                        "A")let "sum+=mult*8";;
-                        "B+")let "sum+=mult*7";;
-                        "B")let "sum+=mult*6";;
-                        "C")let "sum+=mult*5";;
-                        "P")let "sum+=mult*4";;
+                        "O")sum=$(printf "%f" "$(echo "$sum + $mult * 10"| bc -l)");;
+                        "A+")sum=$(printf "%f" "$(echo "$sum + $mult * 9"| bc -l)");;
+                        "A")sum=$(printf "%f" "$(echo "$sum + $mult * 8.5"| bc -l)");;
+                        "B+")sum=$(printf "%f" "$(echo "$sum + $mult * 8"| bc -l)");;
+                        "B")sum=$(printf "%f" "$(echo "$sum + $mult * 7"| bc -l)");;
+                        "C")sum=$(printf "%f" "$(echo "$sum + $mult * 6"| bc -l)");;
+                        "P")sum=$(printf "%f" "$(echo "$sum + $mult * 5"| bc -l)");;
                         "F");;
                         "FE");;
+												"I");;
                         *)roll=$i
                 esac
                 let count=count+1;
@@ -144,7 +146,7 @@ paste S1SGPA.txt S2SGPA.txt | awk '{printf "%s %.1f\n",$1, ($2*23+$4*24)/47}' > 
 $(wget -q http://14.139.184.212/ask/c4b/c4b.txt -O c4b.txt)
 #Join all 3 files
 $(cut -f 4- c4b.txt > c4b1.txt)
-$(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt ) 
+$(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt )
 $(mv tmpCGPA.txt TotalCGPA.txt)
 
 $(rm c4b*.txt)
