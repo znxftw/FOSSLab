@@ -126,7 +126,7 @@ do
                         "P")sum=$(printf "%f" "$(echo "$sum + $mult * 5"| bc -l)");;
                         "F");;
                         "FE");;
-												"I");;
+			"I");;
                         *)roll=$i
                 esac
                 let count=count+1;
@@ -148,7 +148,6 @@ $(wget -q http://14.139.184.212/ask/c4b/c4b.txt -O c4b.txt)
 $(cut -f 4- c4b.txt > c4b1.txt)
 $(join <(sort TotalCGPA.txt) <(sort S1SGPA.txt) | join - <(sort S2SGPA.txt) | join - <(sort c4b1.txt)  > tmpCGPA.txt )
 $(mv tmpCGPA.txt TotalCGPA.txt)
-
 $(rm c4b*.txt)
 $(rm *SGPA*)
 $(rm *.pdf)
