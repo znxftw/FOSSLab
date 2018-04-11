@@ -1,6 +1,6 @@
-#Linux Kernel Compilation
+# Linux Kernel Compilation
 
-#Execution
+# Execution
 - ./compile.sh
 - Downloads kernel version 4.16.1 from https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.16.1.tar.xz
 - Unpacks the tarball
