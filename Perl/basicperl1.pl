@@ -9,8 +9,8 @@ $a = 10;
 print "Variables don't have specifiable datatypes, only Scalars Arrays Hashes\n";
 print "a = $a\n";
 $a = "10";
-print "a = $a\n";
 
+print "a = $a\n";
 print "Escape characters \" \' \$ \\ \n";
 
 @array = (1,2,3,4);
